@@ -6,6 +6,10 @@ from multiprocessing.pool import ThreadPool
 from datetime import datetime
 
 """
+This script takes in a CSV file of genes with their Entrez IDs and parses these IDs via https request to get
+Eztrez summaries and other information returned as JSON format. Only Entrez summaries are retained as that is
+the main point of interest.
+
 Uses pandas to read CSV file containing list of genes, ideally with Entrez IDs
 Obtains unique Entrez IDs from the column 'ENTREZID' with pd.unique
 Drops NAs and converts IDs from floats to intergers
@@ -20,6 +24,22 @@ gene_ids = pd.unique(gene_data['ENTREZID'].dropna().astype(int))
 gene_ids_list = gene_ids.tolist()
 # Using list comprehension
 gene_ids_list_string = [str(x) for x in gene_ids_list]
+
+
+def get_chunks_in_list(input_list, chunk_size):
+    """ Returns generator object get_chunks_in_list """
+    return (input_list[pos:pos + chunk_size] for pos in range(0, len(input_list), chunk_size))
+
+
+concatenated_list_Gene_IDs = []
+
+
+"""
+
+"""
+for chunks in get_chunks_in_list(gene_ids_list_string, 100):
+    concatenated_list = ','.join(chunks)
+    concatenated_list_Gene_IDs.append(concatenated_list)
 
 
 def generate_url_list(gene_id):
