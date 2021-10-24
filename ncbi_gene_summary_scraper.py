@@ -83,7 +83,7 @@ def retrieve_ncbi_summary(url, list_of_gene_ids):
             summary_result = (gene_id, summary)
         gene_ids_and_summaries.append(summary_result)
 
-    return gene_ids_and_summaries, data
+    return gene_ids_and_summaries
 
 
 results = []
