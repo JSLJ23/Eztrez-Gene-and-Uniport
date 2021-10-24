@@ -24,11 +24,12 @@ gene_ids_list = gene_ids.tolist()
 # Using list comprehension
 gene_ids_list_string = [str(x) for x in gene_ids_list]
 
-gene_ids_list_string_small = gene_ids_list_string[0:300]  # For testing
+gene_ids_list_string_small = gene_ids_list_string[0:1000]  # For testing
 
 
 concatenated_list_Gene_IDs = []
 nested_list_Gene_IDs = []
+chunk = 500
 
 
 def get_chunks_in_list(input_list, chunk_size):
@@ -42,7 +43,7 @@ def get_chunks_in_list(input_list, chunk_size):
 """
 
 """
-for chunks in get_chunks_in_list(gene_ids_list_string_small, 100):
+for chunks in get_chunks_in_list(gene_ids_list_string_small, chunk):
     concatenated_list = ','.join(chunks)
     nested_list_Gene_IDs.append(chunks)
     concatenated_list_Gene_IDs.append(concatenated_list)
