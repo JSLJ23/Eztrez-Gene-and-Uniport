@@ -147,4 +147,5 @@ print("Mapped Entrez summaries to respective Entrez IDs as new column in datafra
 gene_data_excel_export = gene_info_file + "_summary.xlsx"
 gene_data.to_excel(gene_data_excel_export)
 
+print("Exported excel file with original data and annotated Entrez summaries")
 print(datetime.now() - startTime)
