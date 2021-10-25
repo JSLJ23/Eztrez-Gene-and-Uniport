@@ -4,6 +4,9 @@ from urllib.request import urlopen
 import json
 from datetime import datetime
 
+# Internal modules
+import gene_summary_dictionary
+
 """
 This script takes in a CSV file of genes with their Entrez IDs and parses these IDs via https request to get
 Eztrez summaries and other information returned as JSON format. Only Entrez summaries are retained as that is
@@ -41,7 +44,9 @@ def get_chunks_in_list(input_list, chunk_size):
 
 
 """
-
+Based on the assigned chunk size above, the list of Entrez IDs will be split into both nested list containing lists of
+Entrez IDs with length = chunk, and list of concatenated Entrez IDs, seperated only by "," to produce the url in the
+format that NCBI eutils expects
 """
 for chunks in get_chunks_in_list(gene_ids_list_string_small, chunk):
     concatenated_list = ','.join(chunks)
