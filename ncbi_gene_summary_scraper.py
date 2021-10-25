@@ -27,7 +27,7 @@ Converts numpy array of IDs to list
 
 startTime = datetime.now()
 
-gene_info_file = "Sox8_KD_sig_DEGs_with_description"
+gene_info_file = "Sox8_KD_sig_DEGs_with_description"  # Change to args.file if uses command line arguments --file.
 gene_info_file_csv = gene_info_file + ".csv"
 gene_data = pd.read_csv(gene_info_file_csv)
 gene_ids = pd.unique(gene_data["ENTREZID"].dropna().astype(int))
