@@ -4,6 +4,7 @@ from urllib.request import urlopen
 import json
 from datetime import datetime
 import time
+from termcolor import colored
 import argparse
 
 # Internal modules
@@ -121,7 +122,8 @@ for ncbi_url, ncbi_list_of_gene_ids in zip(url_list, nested_list_Gene_IDs):
     length_of_nested_list = len(nested_list_Gene_IDs)
     results.extend(returned_summaries)
     print(index + 1, "out of", length_of_nested_list, "chunks of Entrez IDs completed.")
-    print(datetime.now() - startTime)
+    time_taken_1 = datetime.now() - startTime
+    print(colored(f"Time taken = {time_taken_1}", "green"))
 
 print("Retrieved Entrez summaries from NCBI's eutils API.")
 
@@ -148,4 +150,5 @@ gene_data_excel_export = gene_info_file + "_summary.xlsx"
 gene_data.to_excel(gene_data_excel_export)
 
 print("Exported excel file with original data and annotated Entrez summaries")
-print(datetime.now() - startTime)
+time_taken_2 = datetime.now() - startTime
+print(colored(f"Time taken = {time_taken_2}", "green"))
