@@ -57,7 +57,7 @@ def get_chunks_in_list(input_list, chunk_size):
 """
 Based on the assigned chunk size above, the list of Entrez IDs will be split into both nested list containing lists of
 Entrez IDs with length = chunk, and list of concatenated Entrez IDs, seperated only by "," to produce the url in the
-format that NCBI eutils expects
+format that NCBI eutils expects.
 """
 for chunks in get_chunks_in_list(gene_ids_list_string, chunk):
     concatenated_list = ','.join(chunks)
@@ -112,9 +112,9 @@ def retrieve_ncbi_summary(url, list_of_gene_ids):
 results = []
 
 """
-For each url of chunk number of genes, and corresponding nested list of gene IDs, call the retrieve_ncbi_summary
-function once to get data, and list of tuples are stored as temporary variable returned_summaries.
-Then returned_summaries is extended to results list, and results list of tuples (gene_id, summary) continues to extend.
+For each url of chunk number of genes, and corresponding nested list of gene IDs, the retrieve_ncbi_summary
+function is called once to get data, and list of tuples are stored as temporary variable: returned_summaries.
+Then returned_summaries is extended to results list as more tuples (gene_id, summary).
 """
 for ncbi_url, ncbi_list_of_gene_ids in zip(url_list, nested_list_Gene_IDs):
     returned_summaries = retrieve_ncbi_summary(ncbi_url, ncbi_list_of_gene_ids)
