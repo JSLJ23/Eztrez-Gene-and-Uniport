@@ -106,9 +106,9 @@ def main(gene_info_file, sleep_duration=3):
     results = []
 
     """
-    For each url of chunk number of genes, and corresponding nested list of gene IDs, call the retrieve_ncbi_summary
-    function once to get data, and list of tuples are stored as temporary variable returned_summaries.
-    Then returned_summaries is extended to results list with more tuples (gene_id, summary).
+    For each url of chunk number of genes, and corresponding nested list of gene IDs, the retrieve_ncbi_summary
+    function is called once to get data, and list of tuples are stored as temporary variable: returned_summaries.
+    Then returned_summaries is extended to results list as more tuples (gene_id, summary).
     """
     for ncbi_url, ncbi_list_of_gene_ids in zip(url_list, nested_list_gene_ids):
         returned_summaries = retrieve_ncbi_summary(ncbi_url, ncbi_list_of_gene_ids, sleep=sleep_duration)
