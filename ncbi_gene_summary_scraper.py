@@ -58,13 +58,14 @@ def retrieve_ncbi_summary(url, list_of_gene_ids, sleep):
     return gene_ids_and_summaries
 
 
-def main(gene_info_file, sleep_duration=3):
+def main(gene_info_file, sleep_duration=3, chunk=300):
     """
     Main function
     Uses pandas to read CSV file containing list of genes, ideally with Entrez IDs
     Obtains unique Entrez IDs from the column "ENTREZID" with pd.unique
     Drops NAs and converts IDs from floats to integers
     Converts numpy array of IDs to list
+    :param chunk:
     :param sleep_duration:
     :param gene_info_file:
     :return:
@@ -82,14 +83,13 @@ def main(gene_info_file, sleep_duration=3):
 
     concatenated_list_gene_ids = []
     nested_list_gene_ids = []
-    chunk = 300
 
     """
     Based on the assigned chunk size, the list of Entrez IDs will be split into both nested list containing lists of
     Entrez IDs with length = chunk, and list of concatenated Entrez IDs, seperated only by "," to produce the url in the
     format that NCBI eutils expects
     """
-    for chunks in get_chunks_in_list(gene_ids_list_string, chunk):
+    for chunks in get_chunks_in_list(gene_ids_list_string, chunk_size=chunk):
         concatenated_list = ','.join(chunks)
         nested_list_gene_ids.append(chunks)
         concatenated_list_gene_ids.append(concatenated_list)
