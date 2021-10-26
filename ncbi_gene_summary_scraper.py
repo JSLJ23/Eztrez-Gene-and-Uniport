@@ -32,7 +32,7 @@ def generate_url_list(gene_id):
     return url
 
 
-def retrieve_ncbi_summary(url, list_of_gene_ids):
+def retrieve_ncbi_summary(url, list_of_gene_ids, sleep):
     """
     This functions takes in url as an argument and obtains the gene_id within the url.
     It then formats the origin of the request with a dummy browser, i.e. Mozilla.
@@ -44,7 +44,7 @@ def retrieve_ncbi_summary(url, list_of_gene_ids):
     request = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     response = urllib.request.urlopen(request)
     data = json.load(response)
-    time.sleep(3)
+    time.sleep(sleep)
     print("Data retrieved from url, delay for 3 seconds before parsing out summary.....")
 
     for gene_id in list_of_gene_ids:
@@ -58,13 +58,14 @@ def retrieve_ncbi_summary(url, list_of_gene_ids):
     return gene_ids_and_summaries
 
 
-def main(gene_info_file):
+def main(gene_info_file, sleep_duration=3):
     """
     Main function
     Uses pandas to read CSV file containing list of genes, ideally with Entrez IDs
     Obtains unique Entrez IDs from the column "ENTREZID" with pd.unique
     Drops NAs and converts IDs from floats to integers
     Converts numpy array of IDs to list
+    :param sleep_duration:
     :param gene_info_file:
     :return:
     """
@@ -84,7 +85,7 @@ def main(gene_info_file):
     chunk = 300
 
     """
-    Based on the assigned chunk size above, the list of Entrez IDs will be split into both nested list containing lists of
+    Based on the assigned chunk size, the list of Entrez IDs will be split into both nested list containing lists of
     Entrez IDs with length = chunk, and list of concatenated Entrez IDs, seperated only by "," to produce the url in the
     format that NCBI eutils expects
     """
@@ -107,10 +108,10 @@ def main(gene_info_file):
     """
     For each url of chunk number of genes, and corresponding nested list of gene IDs, call the retrieve_ncbi_summary
     function once to get data, and list of tuples are stored as temporary variable returned_summaries.
-    Then returned_summaries is extended to results list, and results list of tuples (gene_id, summary) continues to extend.
+    Then returned_summaries is extended to results list with more tuples (gene_id, summary).
     """
     for ncbi_url, ncbi_list_of_gene_ids in zip(url_list, nested_list_gene_ids):
-        returned_summaries = retrieve_ncbi_summary(ncbi_url, ncbi_list_of_gene_ids)
+        returned_summaries = retrieve_ncbi_summary(ncbi_url, ncbi_list_of_gene_ids, sleep=sleep_duration)
         index = nested_list_gene_ids.index(ncbi_list_of_gene_ids)
         length_of_nested_list = len(nested_list_gene_ids)
         results.extend(returned_summaries)
