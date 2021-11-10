@@ -90,9 +90,9 @@ def main(gene_info_file, sleep_duration=3, chunk=300):
     format that NCBI eutils expects
     """
     for chunks in get_chunks_in_list(gene_ids_list_string, chunk_size=chunk):
-        concatenated_list = ','.join(chunks)
+        gene_list_as_long_string = ','.join(chunks)
         nested_list_gene_ids.append(chunks)
-        concatenated_list_gene_ids.append(concatenated_list)
+        concatenated_list_gene_ids.append(gene_list_as_long_string)
 
     print("Chunks of gene IDs obtained.")
 
